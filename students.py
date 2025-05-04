@@ -1,23 +1,43 @@
 from db import get_db_connection
 
-def add_student(name, email, major):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO Students (name, email, major) VALUES (?, ?, ?)", (name, email, major))
-    conn.commit()
-    conn.close()
+class StudentManager:
+    @staticmethod
+    def add_student(first, last, email, dob=None, gender=None, dept_id=None):
+        with get_db_connection() as conn:
+            conn.execute(
+                "INSERT INTO students (first_name, last_name, email, dob, gender, department_id) VALUES (?, ?, ?, ?, ?, ?)",
+                (first, last, email, dob, gender, dept_id)
+            )
+            print("Student added.")
 
-def get_all_students():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Students")
-    students = cursor.fetchall()
-    conn.close()
-    return students
+    @staticmethod
+    def view_students():
+        with get_db_connection() as conn:
+            cursor = conn.execute("SELECT * FROM students")
+            for row in cursor.fetchall():
+                print(row)
 
-def delete_student(student_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM Students WHERE id = ?", (student_id,))
-    conn.commit()
-    conn.close()
+    @staticmethod
+    def update_student(student_id, first=None, last=None, email=None, dob=None, gender=None, dept_id=None):
+        with get_db_connection() as conn:
+            if first:
+                conn.execute("UPDATE students SET first_name = ? WHERE id = ?", (first, student_id))
+            if last:
+                conn.execute("UPDATE students SET last_name = ? WHERE id = ?", (last, student_id))
+            if email:
+                conn.execute("UPDATE students SET email = ? WHERE id = ?", (email, student_id))
+            if dob:
+                conn.execute("UPDATE students SET dob = ? WHERE id = ?", (dob, student_id))
+            if gender:
+                conn.execute("UPDATE students SET gender = ? WHERE id = ?", (gender, student_id))
+            if dept_id == 0:
+                conn.execute("UPDATE students SET department_id = NULL WHERE id = ?", (student_id,))
+            elif dept_id:
+                conn.execute("UPDATE students SET department_id = ? WHERE id = ?", (dept_id, student_id))
+            print("Student updated.")
+
+    @staticmethod
+    def delete_student(student_id):
+        with get_db_connection() as conn:
+            conn.execute("DELETE FROM students WHERE id = ?", (student_id,))
+            print("Student deleted.")

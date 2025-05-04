@@ -1,29 +1,21 @@
 from db import get_db_connection
 
-def enroll_student(student_id, course_id, grade=None):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO Enrollments (student_id, course_id, grade) VALUES (?, ?, ?)", 
-                   (student_id, course_id, grade))
-    conn.commit()
-    conn.close()
+class EnrollmentManager:
+    @staticmethod
+    def enroll_student(student_id, course_id):
+        with get_db_connection() as conn:
+            conn.execute("INSERT INTO enrollments (student_id, course_id) VALUES (?, ?)", (student_id, course_id))
+            print("Student enrolled in course.")
 
-def get_all_enrollments():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT e.id, s.name, c.name, e.grade 
-        FROM Enrollments e
-        JOIN Students s ON e.student_id = s.id
-        JOIN Courses c ON e.course_id = c.id
-    """)
-    enrollments = cursor.fetchall()
-    conn.close()
-    return enrollments
+    @staticmethod
+    def view_enrollments():
+        with get_db_connection() as conn:
+            cursor = conn.execute("SELECT * FROM enrollments")
+            for row in cursor.fetchall():
+                print(row)
 
-def delete_enrollment(enrollment_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM Enrollments WHERE id = ?", (enrollment_id,))
-    conn.commit()
-    conn.close()
+    @staticmethod
+    def delete_enrollment(enrollment_id):
+        with get_db_connection() as conn:
+            conn.execute("DELETE FROM enrollments WHERE id = ?", (enrollment_id,))
+            print("Enrollment deleted.")

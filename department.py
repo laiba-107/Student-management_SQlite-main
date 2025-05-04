@@ -1,23 +1,30 @@
 from db import get_db_connection
 
-def add_department(name, office):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO Departments (name, office) VALUES (?, ?)", (name, office))
-    conn.commit()
-    conn.close()
+class DepartmentManager:
+    @staticmethod
+    def add_department(name, office):
+        with get_db_connection() as conn:
+            conn.execute("INSERT INTO departments (name, office) VALUES (?, ?)", (name, office))
+            print("Department added.")
 
-def get_all_departments():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Departments")
-    departments = cursor.fetchall()
-    conn.close()
-    return departments
+    @staticmethod
+    def view_departments():
+        with get_db_connection() as conn:
+            cursor = conn.execute("SELECT * FROM departments")
+            for row in cursor.fetchall():
+                print(row)
 
-def delete_department(department_id):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM Departments WHERE id = ?", (department_id,))
-    conn.commit()
-    conn.close()
+    @staticmethod
+    def update_department(dept_id, name=None, office=None):
+        with get_db_connection() as conn:
+            if name:
+                conn.execute("UPDATE departments SET name = ? WHERE id = ?", (name, dept_id))
+            if office:
+                conn.execute("UPDATE departments SET office = ? WHERE id = ?", (office, dept_id))
+            print("Department updated.")
+
+    @staticmethod
+    def delete_department(dept_id):
+        with get_db_connection() as conn:
+            conn.execute("DELETE FROM departments WHERE id = ?", (dept_id,))
+            print("Department deleted.")

@@ -181,7 +181,7 @@ def enrollment_menu():
             print("Invalid choice. Please try again.")
 
 def main_menu():
-    initialize_database()
+    initialize_db()
     while True:
         print("\n--- Main Menu ---")
         print("1. Department Management")
