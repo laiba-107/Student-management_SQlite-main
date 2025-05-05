@@ -8,14 +8,18 @@ class StudentManager:
                 "INSERT INTO students (first_name, last_name, email, dob, gender, department_id) VALUES (?, ?, ?, ?, ?, ?)",
                 (first, last, email, dob, gender, dept_id)
             )
+            conn.commit()
             print("Student added.")
 
     @staticmethod
     def view_students():
         with get_db_connection() as conn:
             cursor = conn.execute("SELECT * FROM students")
-            for row in cursor.fetchall():
+            rows = cursor.fetchall()
+            for row in rows:
                 print(row)
+            return rows
+
 
     @staticmethod
     def update_student(student_id, first=None, last=None, email=None, dob=None, gender=None, dept_id=None):
@@ -34,10 +38,12 @@ class StudentManager:
                 conn.execute("UPDATE students SET department_id = NULL WHERE id = ?", (student_id,))
             elif dept_id:
                 conn.execute("UPDATE students SET department_id = ? WHERE id = ?", (dept_id, student_id))
+            conn.commit()
             print("Student updated.")
 
     @staticmethod
     def delete_student(student_id):
         with get_db_connection() as conn:
             conn.execute("DELETE FROM students WHERE id = ?", (student_id,))
+            conn.commit()
             print("Student deleted.")

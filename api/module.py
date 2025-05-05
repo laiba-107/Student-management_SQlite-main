@@ -1,21 +1,22 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class Student(BaseModel):
     first_name: str
     last_name: str
     email: str
-    dob: str
-    gender: str
-    department_id: int
+    dob: Optional[str] = None
+    gender: Optional[str] = None
+    department_id: Optional[int] = None
 
 class Department(BaseModel):
     name: str
-    office: str
+    office: Optional[str] = None
 
 class Instructor(BaseModel):
     name: str
     email: str
-    department_id: int
+    department_id: Optional[int] = None
 
 class Course(BaseModel):
     title: str

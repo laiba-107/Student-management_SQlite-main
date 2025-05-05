@@ -185,19 +185,18 @@ def enrollment_menu():
         else:
             print("Invalid choice. Please try again.")
 
-def main_menu():
+def main():
     initialize_db()
     while True:
-        print("\n--- Main Menu ---")
-        print("1. Department Management")
-        print("2. Instructor Management")
-        print("3. Course Management")
-        print("4. Student Management")
-        print("5. Enrollment Management")
-        print("6. Exit")
-        
-        choice = input("Enter your choice (1-6): ")
-        
+        print("\nStudent Management System")
+        print("1. Manage Departments")
+        print("2. Manage Instructors")
+        print("3. Manage Courses")
+        print("4. Manage Students")
+        print("5. Exit")
+
+        choice = input("Enter your choice (1-5): ")
+
         if choice == "1":
             department_menu()
         elif choice == "2":
@@ -207,12 +206,9 @@ def main_menu():
         elif choice == "4":
             student_menu()
         elif choice == "5":
-            enrollment_menu()
-        elif choice == "6":
-            print("Exiting program.")
             break
         else:
             print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    main_menu()
+    main()
