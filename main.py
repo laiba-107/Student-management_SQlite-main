@@ -4,7 +4,7 @@ from Instructor import InstructorManager
 from Course import CourseManager
 from students import StudentManager
 from Enrollment import EnrollmentManager
-from fastapi import FastAPI
+from fastapi import FastAPI # type: ignore
 from api.router import router
 
 app = FastAPI(title="Student Management API")

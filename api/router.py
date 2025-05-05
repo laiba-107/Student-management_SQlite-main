@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException # type: ignore
 from .module import Student, Department, Instructor, Course, Enrollment
 from db import get_db_connection
 
