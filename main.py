@@ -194,9 +194,10 @@ def main():
         print("2. Manage Instructors")
         print("3. Manage Courses")
         print("4. Manage Students")
-        print("5. Exit")
+        print("5. Manage Enrollments")
+        print("6. Exit")
 
-        choice = input("Enter your choice (1-5): ")
+        choice = input("Enter your choice (1-6): ")
 
         if choice == "1":
             department_menu()
@@ -207,6 +208,8 @@ def main():
         elif choice == "4":
             student_menu()
         elif choice == "5":
+            enrollment_menu()
+        elif choice == "6":
             break
         else:
             print("Invalid choice. Please try again.")
