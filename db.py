@@ -3,6 +3,12 @@ import sqlite3
 def get_db_connection():
     return sqlite3.connect("student_management.db")
 
+
+def get_db_connection():
+    conn = sqlite3.connect("student_management.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
 def initialize_db():
     conn = get_db_connection()
     cursor = conn.cursor()

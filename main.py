@@ -4,6 +4,11 @@ from Instructor import InstructorManager
 from Course import CourseManager
 from students import StudentManager
 from Enrollment import EnrollmentManager
+from fastapi import FastAPI
+from api.router import router
+
+app = FastAPI(title="Student Management API")
+app.include_router(router)
 
 def department_menu():
     while True:

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from flask_cors import CORS
 from db import get_db_connection, initialize_database
 from auth import auth_bp
-from api.routes import api_bp
+from api.router import api_bp
 import os
 from config import Config
 
