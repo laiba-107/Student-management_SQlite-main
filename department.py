@@ -2,29 +2,31 @@ from db import get_db_connection
 
 class DepartmentManager:
     @staticmethod
-    def add_department(name, office):
+    def add_department(name):
         with get_db_connection() as conn:
-            conn.execute("INSERT INTO departments (name, office) VALUES (?, ?)", (name, office))
+            conn.execute("INSERT INTO departments (name) VALUES (?)", (name,))
+            conn.commit()
             print("Department added.")
 
     @staticmethod
     def view_departments():
         with get_db_connection() as conn:
             cursor = conn.execute("SELECT * FROM departments")
-            for row in cursor.fetchall():
+            rows = cursor.fetchall()
+            for row in rows:
                 print(row)
+            return rows
 
     @staticmethod
-    def update_department(dept_id, name=None, office=None):
+    def update_department(department_id, name):
         with get_db_connection() as conn:
-            if name:
-                conn.execute("UPDATE departments SET name = ? WHERE id = ?", (name, dept_id))
-            if office:
-                conn.execute("UPDATE departments SET office = ? WHERE id = ?", (office, dept_id))
+            conn.execute("UPDATE departments SET name = ? WHERE id = ?", (name, department_id))
+            conn.commit()
             print("Department updated.")
 
     @staticmethod
-    def delete_department(dept_id):
+    def delete_department(department_id):
         with get_db_connection() as conn:
-            conn.execute("DELETE FROM departments WHERE id = ?", (dept_id,))
+            conn.execute("DELETE FROM departments WHERE id = ?", (department_id,))
+            conn.commit()
             print("Department deleted.")
