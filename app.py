@@ -4,8 +4,17 @@ from department import DepartmentManager
 from Course import CourseManager
 from Instructor import InstructorManager
 from Enrollment import EnrollmentManager
+from flask import Flask
 
 app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "<h1>Welcome to the Student Management System</h1><p>Use the menu or URL to access features.</p>"
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 
 # ------------------- STUDENTS -------------------
 @app.route("/students", methods=["POST"])

@@ -7,6 +7,7 @@ from Enrollment import EnrollmentManager
 from fastapi import FastAPI # type: ignore
 from api.router import router
 
+
 app = FastAPI(title="Student Management API")
 app.include_router(router)
 
