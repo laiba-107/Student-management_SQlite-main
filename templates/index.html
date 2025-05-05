@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), 
+                        url("{{ url_for('static', filename='Student-Management-System.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .card-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .card-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            color: var(--dark-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Management System</h1>
+            <p class="subtitle">Managing Anything & Everything For Your Institution</p>
+        </header>
+        
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h2 class="card-title">Students</h2>
+                <p>Manage student records and information</p>
+                <a href="/students" class="card-link">View Students</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">🏢</div>
+                <h2 class="card-title">Departments</h2>
+                <p>View and manage academic departments</p>
+                <a href="/departments" class="card-link">View Departments</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">📘</div>
+                <h2 class="card-title">Courses</h2>
+                <p>Manage course offerings and details</p>
+                <a href="/courses" class="card-link">View Courses</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">👩‍🏫</div>
+                <h2 class="card-title">Instructors</h2>
+                <p>View and manage faculty information</p>
+                <a href="/instructors" class="card-link">View Instructors</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">📝</div>
+                <h2 class="card-title">Enrollments</h2>
+                <p>Manage student course enrollments</p>
+                <a href="/enrollments" class="card-link">View Enrollments</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Student Management System | All Rights Reserved</p>
+        </footer>
+    </div>
+</body>
+</html>

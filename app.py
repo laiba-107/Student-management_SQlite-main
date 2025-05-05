@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from students import StudentManager
 from department import DepartmentManager
 from Course import CourseManager
@@ -9,11 +9,10 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
-def home():
-    return "<h1>Welcome to the Student Management System</h1><p>Use the menu or URL to access features.</p>"
-
-if __name__ == "__main__":
-    app.run(debug=True)
+def index():
+    return render_template("index.html")
+# if __name__ == "__main__":
+#     app.run(debug=True)
 
 
 # ------------------- STUDENTS -------------------
@@ -130,17 +129,51 @@ def delete_instructor(instructor_id):
 @app.route("/enrollments", methods=["POST"])
 def add_enrollment():
     data = request.get_json()
-    EnrollmentManager.add_enrollment(data.get("student_id"), data.get("course_id"))
-    return jsonify({"message": "Enrollment added"}), 201
+    if not data or 'student_id' not in data or 'course_id' not in data:
+        return jsonify({"error": "student_id and course_id are required"}), 400
+    
+    try:
+        EnrollmentManager.add_enrollment(
+            student_id=data["student_id"],
+            course_id=data["course_id"],
+            grade=data.get("grade")
+        )
+        return jsonify({"message": "Enrollment added successfully"}), 201
+    except sqlite3.IntegrityError as e:
+        return jsonify({"error": "Invalid student_id or course_id"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/enrollments", methods=["GET"])
 def get_enrollments():
-    return jsonify([dict(row) for row in EnrollmentManager.view_enrollments()])
+    try:
+        enrollments = EnrollmentManager.view_enrollments()
+        return jsonify([dict(row) for row in enrollments])
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/enrollments/<int:enrollment_id>", methods=["PUT"])
+def update_enrollment(enrollment_id):
+    data = request.get_json()
+    if "grade" not in data:
+        return jsonify({"error": "grade is required"}), 400
+    
+    try:
+        EnrollmentManager.update_enrollment(
+            enrollment_id=enrollment_id,
+            grade=data["grade"]
+        )
+        return jsonify({"message": "Enrollment updated successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/enrollments/<int:enrollment_id>", methods=["DELETE"])
 def delete_enrollment(enrollment_id):
-    EnrollmentManager.delete_enrollment(enrollment_id)
-    return jsonify({"message": "Enrollment deleted"})
+    try:
+        EnrollmentManager.delete_enrollment(enrollment_id)
+        return jsonify({"message": "Enrollment deleted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ------------------- MAIN -------------------
 if __name__ == "__main__":
